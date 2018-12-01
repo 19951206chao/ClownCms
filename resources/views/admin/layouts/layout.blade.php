@@ -34,7 +34,7 @@
     @yield('css')
 </head>
 
-<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<body class="fixed-sidebar full-height-layout gray-bg">
 <div id="wrapper">
     <!--左侧导航开始-->
     @include('admin.layouts.nav')

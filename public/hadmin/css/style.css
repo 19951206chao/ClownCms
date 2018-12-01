@@ -3740,12 +3740,12 @@ nav.page-tabs .page-tabs-content {
 
 #content-main {
     height: calc(100% - 50px);
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 .fixed-nav #content-main {
     height: calc(100% - 50px);
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 
