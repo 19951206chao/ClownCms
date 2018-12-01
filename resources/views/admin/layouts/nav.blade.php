@@ -23,6 +23,48 @@
                     <span class="nav-label">主页</span>
                 </a>
             </li>
+            <li>
+                <a class="J_menuItem" href="{{route('admin.index')}}">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">轮播图管理</span>
+                </a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="{{route('admin.index')}}">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">分类管理</span>
+                </a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="{{route('admin.index')}}">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">文章管理</span>
+                </a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="{{route('admin.index')}}">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">用户管理</span>
+                </a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="{{route('admin.index')}}">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">管理员管理</span>
+                </a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="{{route('admin.index')}}">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">留言管理</span>
+                </a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="{{route('admin.index')}}">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">标签库管理</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
