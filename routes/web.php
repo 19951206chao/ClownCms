@@ -12,6 +12,9 @@
 */
 
 
+Route::get('admin/login','Admin\AuthController@showLoginForm');
+
+Route::post('admin/login','Admin\AuthController@login')->name('admin.login');
 
 Route::group(['namespace'=>'Admin','prefix'=>'admin','as'=>'admin.'],function (){
 
