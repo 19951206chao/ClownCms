@@ -15,7 +15,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\User::class, function (Faker $faker) {
 
-    $password = encrypt('admin');
+    $password = Hash::make('admin');
 
     return [
         'name' => $faker->name,

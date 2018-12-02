@@ -16,7 +16,9 @@ Route::get('admin/login','Admin\AuthController@showLoginForm');
 
 Route::post('admin/login','Admin\AuthController@login')->name('admin.login');
 
-Route::group(['namespace'=>'Admin','prefix'=>'admin','as'=>'admin.'],function (){
+Route::get('admin/logout','Admin\AuthController@logout')->name('admin.logout');
+
+Route::group(['namespace'=>'Admin','prefix'=>'admin','as'=>'admin.','middleware'=>'admin.auth'],function (){
 
     Route::get('/','AdminController@index')->name('index');
 

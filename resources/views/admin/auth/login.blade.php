@@ -39,15 +39,25 @@
 <body class="signin">
 <div class="signinpanel">
     <div class="row">
+        @if(count($errors)>0)
+            @foreach($errors->all() as $error)
+                <p>{{$error}}</p>
+            @endforeach
+        @endif
         <div class="col-sm-12">
-            <form method="post" action="{{route('admin.login')}}">
-                {{csrf_field()}}
-                <h1 class="no-margins text-center">登录</h1>
-                {{--<p class="m-t-md">登录到H+后台主题UI框架</p>--}}
-                <input type="text" class="form-control uname" placeholder="用户名"/>
-                <input type="password" class="form-control pword m-b" placeholder="密码"/>
-                <button class="btn btn-success btn-block">登录</button>
-            </form>
+            {!! Form::open(['route'=>'admin.login']) !!}
+            <h1 class="no-margins text-center">登录</h1>
+            {{--<p class="m-t-md">登录到H+后台主题UI框架</p>--}}
+            <div class="form-group">
+                {!! Form::email('email',null,['class'=>'form-control uname','placeholder'=>'邮箱']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::password('password',['class'=>'form-control pword','placeholder'=>'密码']) !!}
+            </div>
+            {!! Form::submit('登陆',['class'=>'btn btn-success btn-block']) !!}
+
+            {!! Form::close() !!}
+
         </div>
     </div>
     <div class="signup-footer">
