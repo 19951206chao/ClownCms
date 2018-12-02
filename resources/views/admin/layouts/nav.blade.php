@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li>
-                <a class="J_menuItem" href="{{route('admin.index')}}">
+                <a class="J_menuItem" href="{{route('admin.admins.index')}}">
                     <i class="fa fa-home"></i>
                     <span class="nav-label">管理员管理</span>
                 </a>

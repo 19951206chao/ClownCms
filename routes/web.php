@@ -20,7 +20,9 @@ Route::get('admin/logout','Admin\AuthController@logout')->name('admin.logout');
 
 Route::group(['namespace'=>'Admin','prefix'=>'admin','as'=>'admin.','middleware'=>'admin.auth'],function (){
 
-    Route::get('/','AdminController@index')->name('index');
+    Route::get('/','IndexController@index')->name('index');
+
+    Route::resource('/admins','AdminController');
 
 });
 
