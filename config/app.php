@@ -180,6 +180,11 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        /**
+         * Package service providers
+         **/
+        Lubusin\Decomposer\DecomposerServiceProvider::class,
+
     ],
 
     /*

@@ -29,3 +29,5 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','as'=>'admin.','middleware'
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('decompose','\Lubusin\Decomposer\Controllers\DecomposerController@index');

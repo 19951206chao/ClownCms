@@ -25,7 +25,7 @@
 
             </div>
             <div class="col-sm-6">
-                {!! Form::model($admin,['route'=>'admin.admins.store','method'=>'put']) !!}
+                {!! Form::model($admin,['route'=>['admin.admins.update',$admin->id],'method'=>'put']) !!}
                 @include('admin.admins._form')
                 {!! Form::close() !!}
             </div>

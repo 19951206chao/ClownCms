@@ -130,6 +130,7 @@
             </nav>
         </div>
         <div class="row J_mainContent" id="content-main">
+            @include('admin.layouts.messages')
             @yield('content')
         </div>
     </div>

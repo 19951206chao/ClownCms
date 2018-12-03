@@ -1,38 +1,260 @@
 @extends('admin.layouts.layout')
+@section('css')
+    <!-- Bootstrap & Datatables -->
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">--}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
 
+    <!-- Styles -->
+    <style>
+        body {
+            padding: 25px;
+        }
+
+        .ld-version-tag {
+            background-color: #F5716C;
+        }
+
+        .bs-callout {
+            padding: 20px;
+            margin: 0 0 20px 0;
+            border: 1px solid #eee;
+            border-left-width: 5px;
+            border-radius: 3px;
+        }
+
+        .bs-callout-primary {
+            border-left-color: #428bca;
+        }
+
+        .bs-callout-primary h4 {
+            color: #428bca;
+        }
+
+        .glyphicon-ok {
+            color: #7ad03a;
+        }
+
+        .glyphicon-remove {
+            color: red;
+        }
+
+        .panel-title {
+            font-weight: 600;
+        }
+
+        .table th {
+            color: #757575;
+        }
+
+        table.dataTable span.highlight {
+            background-color: #FFF176;
+            border-radius: 0.28571429rem;
+        }
+
+        #txt-report {
+            margin: 10px 0;
+        }
+
+        #report-wrapper {
+            display: none;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-sm-4">
-            <h2>标题</h2>
-            <ol class="breadcrumb">
-                <li>
-                    <a href="index.html">主页</a>
-                </li>
-                <li>
-                    <strong>包屑导航</strong>
-                </li>
-            </ol>
-        </div>
-        <div class="col-sm-8">
-            <div class="title-action">
-                <a href="empty_page.html" class="btn btn-primary">活动区域</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper wrapper-content">
         <div class="row">
             <div class="col-sm-12">
-                <div class="middle-box text-center animated fadeInRightBig">
-                    <h3 class="font-bold">这里是页面内容</h3>
+                <div class="bs-callout bs-callout-primary">
+                    <p>请分享此信息以进行故障排除:</p>
+                    <button id="btn-report" class="btn btn-info btn-sm">获取详细报告信息</button>
+                    <a href="https://github.com/lubusIN/laravel-decomposer/blob/master/report.md" target="_blank" id="btn-about-report" class="btn btn-default btn-sm">帮助文档</a>
 
-                    <div class="error-desc">
-                        您可以在这里添加栅格，参考首页及其他页面完成不同的布局
-                        <br/><a href="#" class="btn btn-primary m-t">打开主页</a>
+                    <div id="report-wrapper">
+                    <textarea name="txt-report" id="txt-report" class="col-sm-12" rows="10" spellcheck="false" onfocus="this.select()">
+                        ### Laravel 框架环境
+
+                        - Laravel Version: {{ $laravelEnv['version'] }}
+                        - 时区: {{ $laravelEnv['timezone'] }}
+                        - Debug Mode: {!! $laravelEnv['debug_mode'] ? '&#10004;' : '&#10008;' !!}
+                        - Storage 目录是否可写: {!! $laravelEnv['storage_dir_writable'] ? '&#10004;' : '&#10008;' !!}
+                        - Cache 目录是否可写: {!! $laravelEnv['cache_dir_writable'] ? '&#10004;' : '&#10008;' !!}
+                        - Decomposer Version: {{ $laravelEnv['decomposer_version'] }}
+                        - 网站大小: {{ $laravelEnv['app_size'] }}
+                        @foreach($laravelExtras as $extraStatKey => $extraStatValue)
+                            - {{ $extraStatKey }}: {{ is_bool($extraStatValue) ? ($extraStatValue ? '&#10004;' : '&#10008;') : $extraStatValue }}
+                        @endforeach
+
+                        ### 服务器环境
+
+                        - PHP Version: {{ $serverEnv['version'] }}
+                        - Server Software: {{ $serverEnv['server_software'] }}
+                        - Server OS: {{ $serverEnv['server_os'] }}
+                        - Database: {{ $serverEnv['database_connection_name'] }}
+                        - SSL Installed: {!! $serverEnv['ssl_installed'] ? '&#10004;' : '&#10008;' !!}
+                        - Cache Driver: {{ $serverEnv['cache_driver'] }}
+                        - Session Driver: {{ $serverEnv['session_driver'] }}
+                        - Openssl Ext: {!! $serverEnv['openssl'] ? '&#10004;' : '&#10008;' !!}
+                        - PDO Ext: {!! $serverEnv['pdo'] ? '&#10004;' : '&#10008;' !!}
+                        - Mbstring Ext: {!! $serverEnv['mbstring'] ? '&#10004;' : '&#10008;' !!}
+                        - Tokenizer Ext: {!! $serverEnv['tokenizer']  ? '&#10004;' : '&#10008;'!!}
+                        - XML Ext: {!! $serverEnv['xml'] ? '&#10004;' : '&#10008;' !!}
+                        @foreach($serverExtras as $extraStatKey => $extraStatValue)
+                            - {{ $extraStatKey }}: {{ is_bool($extraStatValue) ? ($extraStatValue ? '&#10004;' : '&#10008;') : $extraStatValue }}
+                        @endforeach
+
+                        ### Installed Packages &amp; their version numbers
+
+                        @foreach($packages as $package)
+                            - {{ $package['name'] }} : {{ $package['version'] }}
+                        @endforeach
+
+                        @if(!empty($extraStats))
+                            ### Extra Information
+
+                            @foreach($extraStats as $extraStatKey => $extraStatValue)
+                                - {{ $extraStatKey }} : {{ is_bool($extraStatValue) ? ($extraStatValue ? '&#10004;' : '&#10008;') : $extraStatValue }}
+                            @endforeach
+                        @endif
+                    </textarea>
+                        <button id="copy-report" class="btn btn-info btn-sm">复制信息</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row"> <!-- Main Row -->
+
+            <div class="col-sm-8"> <!-- Package & Dependency column -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Installed Packages and their Dependencies</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table id="decomposer" class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Package 名称 : 版本信息</th>
+                                <th>Dependency Name : 版本信息</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($packages as $package)
+                                <tr>
+                                    <td>{{ $package['name'] }} : <span class="label ld-version-tag">{{ $package['version'] }}</span></td>
+                                    <td>
+                                        <ul>
+                                            @if(is_array($package['dependencies']))
+                                                @foreach($package['dependencies'] as $dependencyName => $dependencyVersion)
+                                                    <li>{{ $dependencyName }} : <span class="label ld-version-tag">{{ $dependencyVersion }}</span></li>
+                                                @endforeach
+                                            @else
+                                                <li><span class="label label-primary">{{ $package['dependencies'] }}</span></li>
+                                            @endif
+                                        </ul>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- / Package & Dependency column -->
+
+            <div class="col-sm-4"> <!-- Server Environment column -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Laravel 环境</h3>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">Laravel Version: {{ $laravelEnv['version'] }}</li>
+                        <li class="list-group-item">Timezone: {{ $laravelEnv['timezone'] }}</li>
+                        <li class="list-group-item">Debug Mode: {!! $laravelEnv['debug_mode'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>' !!}</li>
+                        <li class="list-group-item">Storage Dir Writable: {!! $laravelEnv['storage_dir_writable'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>' !!}</li>
+                        <li class="list-group-item">Cache Dir Writable: {!! $laravelEnv['cache_dir_writable'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>' !!}</li>
+                        <li class="list-group-item">Decomposer Version: {{ $laravelEnv['decomposer_version'] }}</li>
+                        <li class="list-group-item">App Size: {{ $laravelEnv['app_size'] }}</li>
+                        @foreach($laravelExtras as $extraStatKey => $extraStatValue)
+                            <li class="list-group-item">{{ $extraStatKey }}: {!! is_bool($extraStatValue) ? ($extraStatValue ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>') : $extraStatValue !!}</li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">服务器 环境</h3>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">PHP Version: {{ $serverEnv['version'] }}</li>
+                        <li class="list-group-item">Server Software: {{ $serverEnv['server_software'] }}</li>
+                        <li class="list-group-item">Server OS: {{ $serverEnv['server_os'] }}</li>
+                        <li class="list-group-item">Database: {{ $serverEnv['database_connection_name'] }}</li>
+                        <li class="list-group-item">SSL Installed: {!! $serverEnv['ssl_installed'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>' !!}</li>
+                        <li class="list-group-item">Cache Driver: {{ $serverEnv['cache_driver'] }}</li>
+                        <li class="list-group-item">Session Driver: {{ $serverEnv['session_driver'] }}</li>
+                        <li class="list-group-item">Openssl Ext: {!! $serverEnv['openssl'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>' !!}</li>
+                        <li class="list-group-item">PDO Ext: {!! $serverEnv['pdo'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>' !!}</li>
+                        <li class="list-group-item">Mbstring Ext: {!! $serverEnv['mbstring'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>' !!}</li>
+                        <li class="list-group-item">Tokenizer Ext: {!! $serverEnv['tokenizer']  ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>'!!}</li>
+                        <li class="list-group-item">XML Ext: {!! $serverEnv['xml'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>' !!}</li>
+                        @foreach($serverExtras as $extraStatKey => $extraStatValue)
+                            <li class="list-group-item">{{ $extraStatKey }}: {!! is_bool($extraStatValue) ? ($extraStatValue ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>') : $extraStatValue !!}</li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                @if(!empty($extraStats))
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Extra Stats</h3>
+                        </div>
+
+                        <ul class="list-group">
+                            @foreach($extraStats as $extraStatKey => $extraStatValue)
+                                <li class="list-group-item">{{ $extraStatKey }}: {!! is_bool($extraStatValue) ? ($extraStatValue ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>') : $extraStatValue !!}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div> <!-- / Server Environment column -->
+
+        </div> <!-- / Main Row -->
     </div>
 
+@endsection
+
+@section('js')
+    <!-- jQuery & Datables JS -->
+    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>--}}
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{asset('hadmin/js/jquery.highlight.js')}}"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.13/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
+
+    <!-- Initialize & config datatables -->
+    <script>
+        $(document).ready(function() {
+            $('#decomposer').DataTable({
+                'order': [[ 0, 'desc' ]],
+                searchHighlight: true
+            });
+
+            s = document.getElementById("txt-report").value;
+            s = s.replace(/(^\s*)|(\s*$)/gi,"");
+            s = s.replace(/[ ]{2,}/gi," ");
+            s = s.replace(/\n /,"\n");
+            document.getElementById("txt-report").value = s;
+
+            $('#btn-report').on('click', function() {
+                $("#report-wrapper").slideToggle();
+            });
+
+            $("#copy-report").on('click', function() {
+                $("#txt-report").select();
+                document.execCommand("copy");
+            });
+        });
+
+    </script>
 @endsection
