@@ -22,7 +22,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','as'=>'admin.','middleware'
 
     Route::get('/','IndexController@index')->name('index');
 
-    Route::resource('/admins','AdminController');
+    Route::resource('/admins','AdminController')->except('show');
 
 });
 
