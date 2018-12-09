@@ -138,8 +138,10 @@
 </div>
 
 <!-- 全局js -->
-<script src="{{asset('hadmin/js/jquery.min.js')}}?v=2.1.4"></script>
-<script src="{{asset('hadmin/js/bootstrap.min.js')}}?v=3.3.6"></script>
+
+{{--<script src="{{asset('hadmin/js/jquery.min.js')}}?v=2.1.4"></script>--}}
+<script src="{{asset('js/app.js')}}"></script>
+{{--<script src="{{asset('hadmin/js/bootstrap.min.js')}}?v=3.3.6"></script>--}}
 <script src="{{asset('hadmin/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
 <script src="{{asset('hadmin/js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 <script src="{{asset('hadmin/js/plugins/layer/layer.min.js')}}"></script>

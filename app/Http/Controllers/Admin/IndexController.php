@@ -10,6 +10,7 @@ class IndexController extends Controller
 {
     public function index()
     {
+        dd(11);
         $composerArray = Decomposer::getComposerArray();
 
         $packages = Decomposer::getPackagesAndDependencies($composerArray['require']);

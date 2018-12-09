@@ -16,7 +16,7 @@ class AdminRepository
 {
     protected $admin;
 
-    protected $fillable = ['id','name', 'email', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'name', 'email', 'created_at', 'updated_at'];
 
     public function __construct(Admin $admin)
     {
@@ -35,7 +35,11 @@ class AdminRepository
 
     public function create(Request $request)
     {
-        $this->admin->create($request->only('name', 'email', 'password'));
+        $input = $request->only('name', 'email');
+
+        $input['password'] = \Hash::make($request->password);
+
+        $this->admin->create($input);
     }
 
 
@@ -43,7 +47,11 @@ class AdminRepository
     {
         $admin = $this->admin->find($id);
 
-        $admin->update($request->only('name', 'email', 'password'));
+        $input = $request->only('name', 'email');
+
+        $input['password'] = \Hash::make($request->password);
+
+        $admin->update($input);
 
     }
 

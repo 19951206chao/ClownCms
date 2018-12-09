@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
@@ -9,8 +10,6 @@ use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
-    use AuthenticatesUsers;
-
     /**
      * Where to redirect users after login.
      *
@@ -36,10 +35,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $this->validateLogin($request);
+//        $admin = Admin::find(1);
 
+$password = \Hash::make('admin');
+//dd($password);
+//dd($admin->password,$password);
+//        dd(password_verify('admin',$admin->password));
         $admin = $request->only('email', 'password');
-
+//dd(\Auth::guard($this->guard)->attempt($admin));
         if (\Auth::guard($this->guard)->attempt($admin)) {
 
             return redirect($this->redirectTo);

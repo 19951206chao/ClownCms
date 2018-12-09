@@ -24,7 +24,7 @@
                 </a>
             </li>
             <li>
-                <a class="J_menuItem" href="{{route('admin.index')}}">
+                <a class="J_menuItem" href="{{route('admin.banners.index')}}">
                     <i class="fa fa-home"></i>
                     <span class="nav-label">轮播图管理</span>
                 </a>

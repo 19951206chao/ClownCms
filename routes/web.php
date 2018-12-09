@@ -24,6 +24,10 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','as'=>'admin.','middleware'
 
     Route::resource('/admins','AdminController')->except('show');
 
+    Route::post('/upload','BannerController@upload');
+
+    Route::resource('/banners','BannerController');
+
 });
 
 Auth::routes();
