@@ -103,10 +103,9 @@ class BannerController extends Controller
             }
             // 文件扩展名
             $extension = $picture->getClientOriginalExtension();
-            // 文件名
-            $fileName = $picture->getClientOriginalName();
+
             // 生成新的统一格式的文件名
-            $newFileName = md5($fileName . time() . mt_rand(1, 10000)) . '.' . $extension;
+            $newFileName = date('YmdHis').str_random(). '.' . $extension;
             // 图片保存路径
             $savePath = 'images/' . $newFileName;
             // Web 访问路径
